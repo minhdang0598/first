@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<header>
+    <style>
+        td,th{
+            border: 1px solid black;
+        }
+    </style>
+</header>
+<body>
+    <h1>Todo App</h1>
+    <table style="border-style: double;">
+        <tr>
+            <th style="width: 50px;"> ID </th>
+            <th style="width: 200px;"> Tên công việc </th>
+            <th style="width: 150px;"> Trạng thái </th>
+            <th></th>
+        {% for task in Tasks %}
+        <tr>
+            <td style="width: 50px;">{{task.id}}</td>
+            <td style="width: 200px;">{{task.title}}</td>
+            <td style="width: 150px;">
+                {% if task.Complete %}
+                Chưa hoàn thành
+                {% else %}
+                Đã hoàn thành
+                {% endif %}
+            </td>
+            <td>
+                <form action="">
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body> 
