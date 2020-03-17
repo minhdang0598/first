@@ -8,28 +8,40 @@
 </header>
 <body>
     <h1>Todo App</h1>
-    <table style="border-style: double;">
-        <tr>
-            <th style="width: 50px;"> ID </th>
-            <th style="width: 200px;"> Tên công việc </th>
-            <th style="width: 150px;"> Trạng thái </th>
-            <th></th>
-        {% for task in Tasks %}
-        <tr>
-            <td style="width: 50px;">{{task.id}}</td>
-            <td style="width: 200px;">{{task.title}}</td>
-            <td style="width: 150px;">
-                {% if task.Complete %}
-                Chưa hoàn thành
-                {% else %}
-                Đã hoàn thành
-                {% endif %}
-            </td>
-            <td>
-                <form action="">
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table style="border-style: double;">
+            <tr>
+                <th style="width: 50px;"> </th>
+                <th style="width: 200px;"> Tên công việc </th>
+                <th style="width: 150px;"> Trạng thái </th>
+                <th></th>
+            {% for task in Tasks %}
+            <tr>
+                <td><input type="checkbox" name="checkedbox" id="{{ task.id }}" value="{{ task.id }}"></td>
+                <td style="width: 200px;">{{task.title}}</td>
+                <td style="width: 150px;">
+                    {% if task.complete %}
+                    Đã hoàn thành
+                    {% else %}
+                    Chưa hoàn thành
+                    {% endif %}
+                </td>
+                <td>
+                    {% if task.complete %}
+                        <button type="submit" name="undone" value={{task.id}}>Hủy thực hiện</button>
+                    {% else %}
+                        <button type="submit" name="done" value={{task.id}}>Thực hiện</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td><button type="submit" name="delete">Xóa</button></td>
+                <td><input placeholder="Nhập công việc" type="text" id="taskTitle" name="taskTitle"></td>
+                <td></td>
+                <td><button type="submit" name="add">Thêm</button></td>
+            </tr>
+        </table>
+    </form>
 </body> 
