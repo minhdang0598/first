@@ -19,8 +19,7 @@ def index(request):
             task.complete = False
             task.save()
         if "delete" in request.POST: 
-            checkedlist = request.POST["checkedbox"]
-            for task_id in checkedlist:
-                task = Task.objects.get(id=int(task_id))
-                task.delete()
+            task = Task.objects.get(id=request.POST["delete"])
+            task.delete()
+            
     return render(request, 'pages/home.html' , Tasks)

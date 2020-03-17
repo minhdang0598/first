@@ -18,7 +18,7 @@
                 <th></th>
             {% for task in Tasks %}
             <tr>
-                <td><input type="checkbox" name="checkedbox" id="{{ task.id }}" value="{{ task.id }}"></td>
+                <td><button type="submit" name="delete" value={{task.id}}>Xóa</button></td>
                 <td style="width: 200px;">{{task.title}}</td>
                 <td style="width: 150px;">
                     {% if task.complete %}
@@ -37,7 +37,7 @@
             </tr>
             {% endfor %}
             <tr>
-                <td><button type="submit" name="delete">Xóa</button></td>
+                <td></td>
                 <td><input placeholder="Nhập công việc" type="text" id="taskTitle" name="taskTitle"></td>
                 <td></td>
                 <td><button type="submit" name="add">Thêm</button></td>
