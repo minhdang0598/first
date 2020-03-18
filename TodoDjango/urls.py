@@ -15,21 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls import url, include
 from rest_framework import routers
 from Todo.views import TaskListCreateAPIView, TaskDetailUpdateAPIView
 
 router = routers.SimpleRouter()
 router.register(r'tasks', TaskListCreateAPIView)
 router.register(r'tasks', TaskDetailUpdateAPIView)
-"""
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Todo.urls')),
-]
-"""
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url('^api/', include(router.urls)),
-    url(r'^', include('Todo.urls'))
+    path('api/', include(router.urls)),
 ]
