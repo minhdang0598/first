@@ -1,14 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Task
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView, )
-from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import serializers
+import requests
 
-
+"""
 def index(request):
     data = {'Tasks': Task.objects.all().order_by("-id")}
     if request.method == "POST":
@@ -30,22 +24,37 @@ def index(request):
             task.delete()
 
     return render(request, 'pages/home.html', data)
+"""
 
 
-class TaskListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = '__all__'
+def index(request):
+    url = 'http://localhost:8000/api/tasks/'
+    data = requests.get(url).json()
+    if request.method == "POST":
+        if "add" in request.POST:
+            title = request.POST["taskTitle"]
+            task = {'title': title, 'complete': False}
+            requests.post(url, task)
+            data = requests.get(url).json()
+            redirect('/')
+        if "done" in request.POST:
+            idd = request.POST["done"]
+            title = Task.objects.get(id=idd).title
+            task = {'id': idd, 'title': title, 'complete': True}
+            requests.put(url + idd + '/', task)
+            data = requests.get(url).json()
+            redirect('/')
+        if "undone" in request.POST:
+            idd = request.POST["undone"]
+            title = Task.objects.get(id=idd).title
+            task = {'id': idd, 'title': title, 'complete': False}
+            requests.put(url + idd + '/', task)
+            data = requests.get(url).json()
+            redirect('/')
+        if "delete" in request.POST:
+            idd = request.POST["delete"]
+            requests.delete(url + idd + '/')
+            data = requests.get(url).json()
+            redirect('/')
 
-
-class TaskDetailUpdateAPIView(viewsets.GenericViewSet,
-                              RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskListSerializer
-    lookup_field = 'id'
-
-
-class TaskListCreateAPIView(viewsets.GenericViewSet,
-                            ListCreateAPIView):
-    serializer_class = TaskListSerializer
-    queryset = Task.objects.all()
+    return render(request, 'pages/home.html', {'Tasks': data})
