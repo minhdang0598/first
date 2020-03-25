@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Task
+from .forms import RegistrationForm
+from django.http import HttpResponseRedirect
 import requests
 
 """
@@ -58,3 +60,13 @@ def index(request):
             redirect('/')
 
     return render(request, 'pages/home.html', {'Tasks': data})
+
+
+def register(request):
+    form = RegistrationForm()
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+    return render(request, 'pages/register.html', {'form': form})
