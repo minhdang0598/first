@@ -10,51 +10,51 @@
 <div class="col-sm-1">
     {% if user.username %}
         <p>Xin chào {{ user.username }}</p>
-        <p><a href="{%url 'logout' %}">Đăng xuất</a></p>
+        <p><a href="{% url 'logout' %}">Đăng xuất</a></p>
+        <h1>Todo App</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table style="border-style: double;">
+                <tr>
+                    <th style="width: 50px;"></th>
+                    <th style="width: 200px;"> Tên công việc</th>
+                    <th style="width: 150px;"> Trạng thái</th>
+                    <th></th>
+                    {% for task in Tasks %}
+                        <tr>
+                            <td>
+                                <button type="submit" name="delete" value={{ task.id }}>Xóa</button>
+                            </td>
+                            <td style="width: 200px;">{{ task.title }}</td>
+                            <td style="width: 150px;">
+                                {% if task.complete %}
+                                    Đã hoàn thành
+                                {% else %}
+                                    Chưa hoàn thành
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if task.complete %}
+                                    <button type="submit" name="undone" value={{ task.id }}>Hủy thực hiện</button>
+                                {% else %}
+                                    <button type="submit" name="done" value={{ task.id }}>Thực hiện</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                <tr>
+                    <td></td>
+                    <td><input placeholder="Nhập công việc" type="text" id="taskTitle" name="taskTitle"></td>
+                    <td></td>
+                    <td>
+                        <button type="submit" name="add">Thêm</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     {% else %}
         <p><a href="{% url 'register' %}">Đăng ký</a>|<a
                 href="{% url 'login' %}">Đăng nhập</a></p>
     {% endif %}
 </div>
-<h1>Todo App</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-    <table style="border-style: double;">
-        <tr>
-            <th style="width: 50px;"></th>
-            <th style="width: 200px;"> Tên công việc</th>
-            <th style="width: 150px;"> Trạng thái</th>
-            <th></th>
-            {% for task in Tasks %}
-                <tr>
-                    <td>
-                        <button type="submit" name="delete" value={{ task.id }}>Xóa</button>
-                    </td>
-                    <td style="width: 200px;">{{ task.title }}</td>
-                    <td style="width: 150px;">
-                        {% if task.complete %}
-                            Đã hoàn thành
-                        {% else %}
-                            Chưa hoàn thành
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if task.complete %}
-                            <button type="submit" name="undone" value={{ task.id }}>Hủy thực hiện</button>
-                        {% else %}
-                            <button type="submit" name="done" value={{ task.id }}>Thực hiện</button>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        <tr>
-            <td></td>
-            <td><input placeholder="Nhập công việc" type="text" id="taskTitle" name="taskTitle"></td>
-            <td></td>
-            <td>
-                <button type="submit" name="add">Thêm</button>
-            </td>
-        </tr>
-    </table>
-</form>
 </body> 

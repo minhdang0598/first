@@ -1,7 +1,6 @@
 from rest_framework import routers
-from .views import TaskDetailUpdateAPIView,TaskListCreateAPIView
+from .views import TaskDetailUpdateAPIView, TaskListCreateAPIView
 from django.urls import path, include
-
 
 router = routers.SimpleRouter()
 router.register(r'tasks', TaskListCreateAPIView)
