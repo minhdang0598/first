@@ -30,21 +30,21 @@ def index(request):
 
 
 def index(request):
-    url = 'http://localhost:8000/api/tasks/'
-    data = [obj for obj in requests.get(url).json() if(obj['user'] == request.user.id)]
+    url = 'http://localhost:8000/api/tasks'
+    data= requests.get(url+'?user='+str(request.user.id)).json()
     if request.method == "POST":
         if "add" in request.POST:
             title = request.POST["taskTitle"]
             task = {'title': title, 'complete': False, 'user': request.user.id}
             requests.post(url, task)
-            data = [obj for obj in requests.get(url).json() if(obj['user'] == request.user.id)]
+            data= requests.get(url+'?user='+str(request.user.id)).json()
             redirect('/')
         if "done" in request.POST:
             idd = request.POST["done"]
             title = Task.objects.get(id=idd).title
             task = {'id': idd, 'title': title, 'complete': True, 'user': request.user.id}
             requests.put(url + idd + '/', task)
-            data = [obj for obj in requests.get(url).json() if (obj['user'] == request.user.id)]
+            data = requests.get(url + '?user=' + str(request.user.id)).json()
             redirect('/')
         if "undone" in request.POST:
             idd = request.POST["undone"]
@@ -56,7 +56,7 @@ def index(request):
         if "delete" in request.POST:
             idd = request.POST["delete"]
             requests.delete(url + idd + '/')
-            data = [obj for obj in requests.get(url).json() if(obj['user'] == request.user.id)]
+            data= requests.get(url+'?user='+str(request.user.id)).json()
             redirect('/')
 
     return render(request, 'pages/home.html', {'Tasks': data, })
