@@ -2,7 +2,7 @@ asgiref==3.2.3
 astroid==2.3.3
 automium==0.2.6
 automium-web==0.1.1
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.14.0
 chardet==3.0.4
 click==7.1.1
